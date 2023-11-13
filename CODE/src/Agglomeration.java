@@ -1,74 +1,150 @@
-import java.util.HashMap;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
+public class Agglomeration {
 
-public class Agglomeration{
+	private HashMap<Ville, ArrayList<Ville>> listVilles;
 
-    private HashMap<Ville,ArrayList<Ville>> listVilles;  // on associe à chaque ville une liste qui va contenir les villes voisines 
+	public Agglomeration() {
 
-    //constructeur
-    public Agglomeration(){
-        listVilles=new HashMap<Ville,ArrayList<Ville>>();
-    }
+		listVilles = new HashMap<>();
+	}
 
-    //methodes
+	// retourner la liste des villes avec une zone de recharge
+	public ArrayList<Ville> getVilleAvecZoneRecharge() {
+		ArrayList<Ville> listVillesAvecZoneRecharge = new ArrayList<>();
 
-    //ajouter une ville a l'agglomeration
-    public void ajouterVille(Ville ville){
+		for (Ville ville : listVilles.keySet()) {
+			listVillesAvecZoneRecharge.add(ville);
+		}
+		return listVillesAvecZoneRecharge;
+	}
 
-        for(Ville v : listVilles.keySet()){  //verifier que la ville qu'on veut rajouter n'est pas presente dans listVilles
-            if(ville.equals(v)) return;
-        }                
-        listVilles.put(ville, new ArrayList<Ville>());
-    }
+	// ajouter une route entre deux ville
+	public void ajouterRoute(Ville villeDepart, Ville villeArrive)
+			throws AgglomerationException.routeDuplicateException, AgglomerationException.routeMemeVilleException {
 
-    
-    public void ajouterVilleVoisine(Ville villeDepart,Ville villeArrive){      //ajouter une arete entre deux villes 
-        ArrayList<Ville> listVilleVoisinesDepart =listVilles.get(villeDepart);  //recuperer les voisins de la premiere ville
-        ArrayList<Ville> listVilleVoisinesArrive=listVilles.get(villeArrive);  //recuperer les voisins de la deuxiéme ville
+		if (villeDepart.equals(villeArrive)) {
+			throw new AgglomerationException.routeMemeVilleException();
+		}
 
-        listVilleVoisinesDepart.add(villeArrive);               //ajouter la villeArrive comme voisin de  villeDepart
-        listVilleVoisinesArrive.add(villeDepart);              //ajouter la villeDepart comme voisin de villeArrive
-    }
+		ArrayList<Ville> listVilleVoisinesDepart = listVilles.get(villeDepart); // recuperer les voisins de la premiere
+																				// ville
+		ArrayList<Ville> listVilleVoisinesArrive = listVilles.get(villeArrive); // recuperer les voisins de la deuxiéme
+																				// ville
 
-    //verifier si deux villes sont voisines
-    public boolean estVoisin(Ville villeDepart,Ville villeArrive){
-        boolean estVoisinDepart=false;
-        boolean estVoisinArrive=false;
+		// verifier qu'il n'y a pas de route entre les deux villes
+		for (Ville v : listVilleVoisinesDepart) {
+			if (v.equals(villeArrive)) {
+				throw new AgglomerationException.routeDuplicateException();
+			}
+		}
 
-        ArrayList<Ville> listVilleVoisinesDepart =listVilles.get(villeDepart);  //recuperer les voisins de la premiere ville
-        ArrayList<Ville> listVilleVoisinesArrive=listVilles.get(villeArrive);  //recuperer les voisins de la deuxiéme ville
+		for (Ville v : listVilleVoisinesArrive) {
+			if (v.equals(villeDepart)) {
+				throw new AgglomerationException.routeDuplicateException();
+			}
+		}
 
-        for(Ville ville : listVilleVoisinesDepart ){   // verivier si villeArrive est voisin de villeDepart
-            if(ville.equals(villeArrive)){
-                estVoisinDepart=true;
-                break;
-            }
-        }
+		listVilleVoisinesDepart.add(villeArrive); // ajouter la villeArrive comme voisin de villeDepart
+		listVilleVoisinesArrive.add(villeDepart); // ajouter la villeDepart comme voisin de villeArrive
+	}
 
-        for(Ville ville : listVilleVoisinesArrive ){   ///verifier si villeDepart est voisin de VilleArrive
-            if(ville.equals(villeDepart)){
-                estVoisinArrive=true;
-                break;
-            }
-        }
-        return  (estVoisinArrive && estVoisinDepart);
-    }
+	// retouner la ville avec le nom passé en paramétre
+	public Ville rechercherVilleParNom(String nom) throws AgglomerationException.villeNotFoundException {
+		for (Ville v : listVilles.keySet()) {
 
-    //voire le contenu de la listVilles
-    public String toString(){
-        StringBuilder sb=new StringBuilder();
-        sb.append(" la listes des villes et leurs voisins :  \n");
-        for(Ville ville : listVilles.keySet()){
-            sb.append(ville.toString());
-            sb.append(" : [ ");
-            ArrayList<Ville> listVilleVoisines=listVilles.get(ville);
-            
-            for(Ville villeVoisines : listVilleVoisines){
-                sb.append(villeVoisines.toString()+" , ");
-            }
-            sb.append(" ] \n");
-        }
-        return sb.toString();
-    }
+			if (v.getNom().equals(nom)) {
+				return v;
+			}
+		}
+		throw new AgglomerationException.villeNotFoundException(); // si la ville n'éxsite pas
+	}
+
+	// ajouter une ville si on l'a pas encore ajouter a l'agglomeration
+	public void ajouterVille(Ville ville) {
+
+		for (Ville v : listVilles.keySet()) {
+			if (ville.equals(v)) {
+
+				return;
+			}
+		}
+		listVilles.put(ville, new ArrayList<Ville>());
+
+	}
+
+	public void retirerVille(Ville ville) {
+		for (Ville v : listVilles.keySet()) {
+			if (ville.equals(v)) {
+				listVilles.remove(ville);
+				return;
+			}
+		}
+	}
+
+	// public boolean estDansVilleAvecZoneRecharge(Ville v) {
+	// if (villeAvecZoneRecharge.contains(v)) {
+	// return true;
+	// }else {
+	// return false;
+	// }
+	// }
+
+	// public void retirerVilleAvecZoneRecharge(Ville v) {
+	// retirerZoneRecharge(v);
+	// villeAvecZoneRecharge.remove(v);
+	// }
+
+	// public void ajouterZoneRecharge(Ville v) {
+	// if(peutAjouterZoneRecharge(v)) {
+	// v.setZoneRecharge(true);
+	// }
+	// }
+
+	// public boolean peutAjouterZoneRecharge(Ville v) {
+
+	// if(v.getZoneRecharge()==false) {
+	// return true;
+	// }else {
+	// return false;
+	// }
+	// }
+
+	// public boolean peutRetirerZoneRecharge(Ville v) {
+	// if(v.getZoneRecharge()==true) {
+	// return false;
+	// }else {
+	// return true;
+	// }
+	// }
+
+	// afficher les villes avec une zone de recharge
+	public void afficherVilleAvecZoneRecharge() {
+		System.out.print("Villes avec une Zone de Recharge : ");
+		for (Ville v : listVilles.keySet()) {
+			if (v.getZoneRecharge()) {
+				System.out.print(v.getNom() + ",");
+			}
+		}
+		System.out.println("\n");
+	}
+
+	// afficher le grahe de l'agglomeration
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		for (Ville v : listVilles.keySet()) {
+			sb.append(v.getNom() + " : [");
+			ArrayList<Ville> listVilleVoisines = listVilles.get(v);
+
+			for (Ville villeVoisines : listVilleVoisines) {
+				sb.append(villeVoisines.toString() + ",");
+			}
+			sb.append(" ] \n");
+		}
+		return sb.toString();
+	}
+
 }

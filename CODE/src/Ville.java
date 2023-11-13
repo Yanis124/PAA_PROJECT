@@ -1,45 +1,51 @@
 
 public class Ville {
-    
-    private String nom;  //le nom de la ville
-    private boolean station; // true si elle contient une station 
-    
-    //constructeurs
-    public Ville(String nom){
-        this.nom=nom;
-        this.station=false;
-    }
+	private String nom;
+	private boolean zoneRecharge;
 
-    public Ville(String nom,boolean station){
-        this(nom);
-        this.station=station;
-    }
+	public Ville(String nom) {
+		this.nom = nom;
+		zoneRecharge = false;
+	}
 
-    public boolean equals(Ville ville){    //comparer deux ville (on considere que deux ville sont les meme si elles sont le meme nom)
-         if(this.nom.compareTo(ville.getNom())==0){
-            return true;
-         }
-         return false;
-    }
+	// vérifier que la ville contient une zone de recharge
+	public boolean getZoneRecharge() {
+		return zoneRecharge;
+	}
 
-    //methodes
+	// ajouter ou retirer une zone de recharge
+	private void setZoneRecharge(boolean zoneRecharge) {
+		this.zoneRecharge = zoneRecharge;
+	}
 
-    //accesseurs 
-    public String getNom(){
-        return this.nom;
-    }
+	public String getNom() {
+		return nom;
+	}
 
-    public boolean getStation(){
-        return this.station;
-    }
+	public String toString() {
+		return nom + "(" + (zoneRecharge ? 1 : 0) + ")";
+	}
 
-    //seteurs
-    public void ajouterStation(){
-        this.station=true;
-    }
+	// ajouter une zone de recharge
+	public void ajouterZoneRecharge() throws VilleException.villeHasZoneRecharge {
+		if (this.zoneRecharge == true) {
+			throw new VilleException.villeHasZoneRecharge(); // si la ville contient deja une zone de recharge
+		}
+		setZoneRecharge(true);
+	}
 
-    public String toString(){
+	// retirer une zone de recharge
+	public void retirerZoneRecharge() throws VilleException.villeHasNotZoneRecharge {
+		if (this.zoneRecharge == false) {
+			throw new VilleException.villeHasNotZoneRecharge(); // si la ville ne contient pas de ville de recharge
+		}
+		setZoneRecharge(false);
+	}
 
-        return nom+" a "+(station ? 1:0)+" station";
-    }
+	public boolean equals(Ville v) {
+		if (this.nom.equals(v.getNom())) {
+			return true;
+		}
+		return false;
+	}
 }
