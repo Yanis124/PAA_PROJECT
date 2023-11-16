@@ -34,13 +34,14 @@ public class Ville {
 		setZoneRecharge(true);
 	}
 
-	// retirer une zone de recharge
-	public void retirerZoneRecharge() throws VilleException.villeHasNotZoneRecharge {
-		if (this.zoneRecharge == false) {
-			throw new VilleException.villeHasNotZoneRecharge(); // si la ville ne contient pas de ville de recharge
+	//retirer une zone de recharge
+	public void retirerZoneRecharge() throws VilleException.villeHasNotZoneRecharge{
+		if(this.zoneRecharge==false){
+			throw new VilleException.villeHasNotZoneRecharge();
 		}
 		setZoneRecharge(false);
 	}
+
 
 	public boolean equals(Ville v) {
 		if (this.nom.equals(v.getNom())) {

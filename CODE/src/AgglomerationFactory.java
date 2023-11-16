@@ -67,9 +67,6 @@ public class AgglomerationFactory {
 				System.err.println("veuillez entrez 1 ou 2");
 			}
 		}
-
-		System.out.println(agg.toString()); // afficher l'agglomeration
-
 	}
 
 	// menu pour ajouter et supprimer des zones de recharge
@@ -77,9 +74,9 @@ public class AgglomerationFactory {
 
 		boolean tourne = true;
 		System.out.println("maintenant nous allons rajouter des zones de recharge dans les villes");
-
+		Scanner lectureClavier = new Scanner(System.in);
 		while (tourne) {
-			Scanner lectureClavier = new Scanner(System.in);
+
 			System.out.println("\n1 : Ajouter une zone de recharge");
 			System.out.println("2 : Retirer une zone de recharge");
 			System.out.println("3 : Fin");
@@ -107,9 +104,10 @@ public class AgglomerationFactory {
 
 						try {
 							Ville villeRetirerZoneRecharge = agg.rechercherVilleParNom(nomVilleRetirerZoneRecharge);
-							villeRetirerZoneRecharge.retirerZoneRecharge();
+							agg.retirerZoneRecharge(villeRetirerZoneRecharge);
 						} catch (AgglomerationException.villeNotFoundException
-								| VilleException.villeHasNotZoneRecharge e) {
+								| VilleException.villeHasNotZoneRecharge
+								| VilleException.villeVoisinesHasNotZoneRecharge e) {
 							System.err.println(e.getMessage());
 						}
 						break;
@@ -137,6 +135,7 @@ public class AgglomerationFactory {
 		Agglomeration agg = fabriqueAgglomeration(); // créer l'agglomeration
 
 		menuCreationAgglomeration(agg); // ajouter les routes
+		System.out.println(agg.toString());
 		menuGestionAgglomeration(agg); // ajouter les zones de recharges
 	}
 

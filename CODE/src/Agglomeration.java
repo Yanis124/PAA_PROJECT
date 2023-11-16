@@ -72,7 +72,6 @@ public class Agglomeration {
 			}
 		}
 		listVilles.put(ville, new ArrayList<Ville>());
-
 	}
 
 	public void retirerVille(Ville ville) {
@@ -84,41 +83,21 @@ public class Agglomeration {
 		}
 	}
 
-	// public boolean estDansVilleAvecZoneRecharge(Ville v) {
-	// if (villeAvecZoneRecharge.contains(v)) {
-	// return true;
-	// }else {
-	// return false;
-	// }
-	// }
+	// retirer une zone de recharge
+	public void retirerZoneRecharge(Ville ville)
+			throws VilleException.villeHasNotZoneRecharge, VilleException.villeVoisinesHasNotZoneRecharge {
 
-	// public void retirerVilleAvecZoneRecharge(Ville v) {
-	// retirerZoneRecharge(v);
-	// villeAvecZoneRecharge.remove(v);
-	// }
-
-	// public void ajouterZoneRecharge(Ville v) {
-	// if(peutAjouterZoneRecharge(v)) {
-	// v.setZoneRecharge(true);
-	// }
-	// }
-
-	// public boolean peutAjouterZoneRecharge(Ville v) {
-
-	// if(v.getZoneRecharge()==false) {
-	// return true;
-	// }else {
-	// return false;
-	// }
-	// }
-
-	// public boolean peutRetirerZoneRecharge(Ville v) {
-	// if(v.getZoneRecharge()==true) {
-	// return false;
-	// }else {
-	// return true;
-	// }
-	// }
+		if (ville.getZoneRecharge() == false) {
+			throw new VilleException.villeHasNotZoneRecharge(); // si la ville ne contient pas de ville de recharge
+		}
+		// si les voisnis de la ville n'ont pas de station de recharge accéssible
+		if (contrainteZoneRecharge(ville) == false) {
+			throw new VilleException.villeVoisinesHasNotZoneRecharge(); // si supprimer la zone de recharge ne respecte
+																		// pas la contrainte d'accecibilitée
+		}
+		// si toutes les contraintes sont respectées on retirer la zone de recharge
+		ville.retirerZoneRecharge();
+	}
 
 	// afficher les villes avec une zone de recharge
 	public void afficherVilleAvecZoneRecharge() {
@@ -129,6 +108,54 @@ public class Agglomeration {
 			}
 		}
 		System.out.println("\n");
+	}
+
+	// verifier que la contraite d'accecibilité est respectée
+	private boolean contrainteZoneRecharge(Ville ville) {
+
+		boolean contrainteZoneRecharge = true;
+		// retiter la zone de recharge de ville
+		try {
+			ville.retirerZoneRecharge();
+		} catch (VilleException.villeHasNotZoneRecharge e) {
+			System.err.println(e.getMessage());
+		}
+		// verifier que retirer la zone de recherche respecte la contrainte
+		// d'accecibilité
+		for (Ville v : listVilles.keySet()) {
+			if (v.getZoneRecharge() == false) { // si la ville n'a pas de zone de recharge
+				ArrayList<Ville> listVillesVoisines = listVilles.get(v); // on verifie si il y a une zone de recharge
+																			// dans ses voisins
+				if (villeVoisinesZoneRecharge(listVillesVoisines) == false) {
+					contrainteZoneRecharge = false; // on a trouver une ville qui n'a pas de zone de recharge avec ses
+													// voisines qui n'ont pas de zone de recharge
+					break;
+				}
+			}
+		}
+
+		try {
+			ville.ajouterZoneRecharge();
+		} catch (VilleException.villeHasZoneRecharge e) {
+			System.err.println(e.getMessage());
+		}
+		return contrainteZoneRecharge;
+	}
+
+	// verifier si les voisines d'une ville ont une zone de recharge
+	private boolean villeVoisinesZoneRecharge(ArrayList<Ville> listVillesVoisines) {
+
+		boolean zoneRecharge = false;
+
+		for (Ville vVoisins : listVillesVoisines) {
+			if (vVoisins.getZoneRecharge() == true) { // verifier qu'au moin une des villes voisins a une zone de //
+														// recharge
+				zoneRecharge = true;
+				break;
+			}
+		}
+		return zoneRecharge;
+
 	}
 
 	// afficher le grahe de l'agglomeration
