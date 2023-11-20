@@ -1,4 +1,3 @@
-
 public class TestAgglomeration {
 
 	public static void main(String[] args) {

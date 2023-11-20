@@ -5,7 +5,7 @@ public class Ville {
 
 	public Ville(String nom) {
 		this.nom = nom;
-		zoneRecharge = false;
+		zoneRecharge = true;
 	}
 
 	// vérifier que la ville contient une zone de recharge

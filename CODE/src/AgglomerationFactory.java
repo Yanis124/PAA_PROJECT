@@ -73,7 +73,7 @@ public class AgglomerationFactory {
 	public static void menuGestionAgglomeration(Agglomeration agg) {
 
 		boolean tourne = true;
-		System.out.println("maintenant nous allons rajouter des zones de recharge dans les villes");
+		//System.out.println("maintenant nous allons rajouter des zones de recharge dans les villes");
 		Scanner lectureClavier = new Scanner(System.in);
 		while (tourne) {
 
