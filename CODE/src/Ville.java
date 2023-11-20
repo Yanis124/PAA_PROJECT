@@ -44,9 +44,6 @@ public class Ville {
 
 
 	public boolean equals(Ville v) {
-		if (this.nom.equals(v.getNom())) {
-			return true;
-		}
-		return false;
+		return this.nom.equals(v.getNom());
 	}
 }
