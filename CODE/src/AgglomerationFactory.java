@@ -143,7 +143,6 @@ public class AgglomerationFactory {
 		Agglomeration agg = fabriqueAgglomeration(); // créer l'agglomeration
 		Scanner nbVilles =new Scanner(System.in);
 
-		// TODO : Demander nombre de ville et les instancier automatiquement puis ajouter les routes (ça rapporte des points)
 		System.out.println("Entrez le nombre de villes de votre agglomération");
 		int nb=nbVilles.nextInt();
 		for(char i=0;i<nb;i++){
