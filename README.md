@@ -34,7 +34,7 @@ tree
 
 dans le répertoire du projet.
 
-## Equipe de projet
+## 😃 Equipe de projet
 
 - Degguiche Fayel
 - Hammaci Yanis
