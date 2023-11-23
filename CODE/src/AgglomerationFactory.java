@@ -10,7 +10,7 @@ public class AgglomerationFactory {
 	}
 
 	// créer une ville( retourner la ville )
-	public static Ville fabriqueVille(Agglomeration agg) {
+	/*public static Ville fabriqueVille(Agglomeration agg) {
 		Scanner lectureClavier = new Scanner(System.in);
 		String nom = lectureClavier.nextLine();
 		try {
@@ -20,13 +20,23 @@ public class AgglomerationFactory {
 			return new Ville(nom); // sinon on creer une nouvelle ville
 		}
 	}
-
+*/
+	public static Ville fabriqueVille(Agglomeration agg,String nom) {
+		try {
+			Ville ville = agg.rechercherVilleParNom(nom); // si la ville existe on retourne la ville
+			return ville;
+		} catch (AgglomerationException.villeNotFoundException e) {
+			return new Ville(nom); // sinon on creer une nouvelle ville
+		}
+	}
 	// menu pour créer une agglomeration
 	public static void menuCreationAgglomeration(Agglomeration agg) {
 		boolean tourne = true;
 		Scanner lectureClavier = new Scanner(System.in);
+		//TODO : Modifier pour ajouter les routes
+		// Il faut donc vérifier si la ville existe déjà
 
-		while (tourne) {
+		/*while (tourne) {
 
 			System.out.println("1 : Ajouter une route");
 			System.out.println("2 : Fin");
@@ -46,10 +56,8 @@ public class AgglomerationFactory {
 
 							agg.ajouterRoute(premiereVille, deuxiemeVille); // ajouter la route entre les deux villes
 						} catch (AgglomerationException.routeMemeVilleException
-								| AgglomerationException.routeDuplicateException e) { // on envoie un message d'erruer
-																						// si
-							// la
-							// route existe deja
+								| AgglomerationException.routeDuplicateException e) { 
+								// on envoie un message d'erreur si la route exite déjà		
 							System.err.println(e.getLocalizedMessage());
 						}
 						break;
@@ -66,7 +74,7 @@ public class AgglomerationFactory {
 			} catch (InputMismatchException e) {
 				System.err.println("veuillez entrez 1 ou 2");
 			}
-		}
+		}*/
 	}
 
 	// menu pour ajouter et supprimer des zones de recharge
@@ -133,7 +141,17 @@ public class AgglomerationFactory {
 	// afficher les deux menus
 	public static void menuAgglomeration() {
 		Agglomeration agg = fabriqueAgglomeration(); // créer l'agglomeration
+		Scanner nbVilles =new Scanner(System.in);
 
+		// TODO : Demander nombre de ville et les instancier automatiquement puis ajouter les routes (ça rapporte des points)
+		System.out.println("Entrez le nombre de villes de votre agglomération");
+		int nb=nbVilles.nextInt();
+		for(char i=0;i<nb;i++){
+			char nomVille=(char) ('A'+i);
+			Ville ville = fabriqueVille(agg,String.valueOf(nomVille));
+			System.out.println(ville.getNom());
+			agg.ajouterVille(ville);
+		}
 		menuCreationAgglomeration(agg); // ajouter les routes
 		System.out.println(agg.toString());
 		menuGestionAgglomeration(agg); // ajouter les zones de recharges
