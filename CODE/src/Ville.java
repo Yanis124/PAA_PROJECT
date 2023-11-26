@@ -1,26 +1,50 @@
 
+/** 
+ * Représente une ville dans l'agglomération 
+ * @author Fayel Degguiche
+ * @author Yanis Hammaci
+ * @author Yanis Allain
+ */
 public class Ville {
+	
+	/** Le nom de la ville */
 	private String nom;
+	/** Indique si une ville possède ou non une Zone de Recharge */
 	private boolean zoneRecharge;
-
+	
+	/** Construit une ville à partir de son nom
+	 *  Attribut une zone de recharge à la ville
+	 * 
+	 * @param nom le nom de la ville
+	 */
 	public Ville(String nom) {
 		this.nom = nom;
-		zoneRecharge = true;
+		zoneRecharge = false;
 	}
 
-	// vérifier que la ville contient une zone de recharge
+	/** Permet d'obtenir le nom de la ville
+	 * 
+	 * @return le nom de la ville
+	 */
+	public String getNom() {
+		return nom;
+	}
+	/** Permet de savoir si une ville possède une zone de recharge ou non
+	 * 
+	 * @return un booléen qui renseigne si la ville possède ou non une zone de recharge
+	 */
 	public boolean getZoneRecharge() {
 		return zoneRecharge;
 	}
 
-	// ajouter ou retirer une zone de recharge
-	private void setZoneRecharge(boolean zoneRecharge) {
+	/** Permet d'attribuer ou de retirer une zone de recharge à une ville 
+	 * 
+	 * @param zoneRecharge la zone de recharge à retirer ou à ajouter
+	 */
+	public void setZoneRecharge(boolean zoneRecharge) {
 		this.zoneRecharge = zoneRecharge;
 	}
 
-	public String getNom() {
-		return nom;
-	}
 
 	public String toString() {
 		return nom + "(" + (zoneRecharge ? 1 : 0) + ")";
@@ -44,6 +68,9 @@ public class Ville {
 
 
 	public boolean equals(Ville v) {
-		return this.nom.equals(v.getNom());
+		if (this.nom.equals(v.getNom())) {
+			return true;
+		}
+		return false;
 	}
 }
