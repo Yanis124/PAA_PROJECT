@@ -1,3 +1,6 @@
+package Phase1;
+import Phase1.VilleException.villeHasNotZoneRecharge;
+import Phase1.VilleException.villeHasZoneRecharge;
 
 /** 
  * Représente une ville dans l'agglomération 

@@ -1,3 +1,5 @@
+package Phase1;
+
 public class VilleException {
 
     public static class villeHasZoneRecharge extends Exception {   //si la ville a une zone de recharge on ne peut pas lui en rajouter une autre

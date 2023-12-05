@@ -1,6 +1,14 @@
+package Phase1;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import Phase1.AgglomerationException.routeDuplicateException;
+import Phase1.AgglomerationException.routeMemeVilleException;
+import Phase1.AgglomerationException.villeNotFoundException;
+import Phase1.VilleException.villeHasNotZoneRecharge;
+import Phase1.VilleException.villeHasZoneRecharge;
+import Phase1.VilleException.villeVoisinesHasNotZoneRecharge;
 
 public class Agglomeration {
 

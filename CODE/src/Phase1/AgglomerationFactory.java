@@ -1,7 +1,12 @@
+package Phase1;
 
-package ProjetPAA;
 
 import java.util.Scanner;
+
+import Phase1.VilleException.villeHasNotZoneRecharge;
+import Phase1.VilleException.villeHasZoneRecharge;
+import Phase1.VilleException.villeVoisinesHasNotZoneRecharge;
+
 import java.util.InputMismatchException;
 
 public class AgglomerationFactory {
@@ -29,14 +34,17 @@ public class AgglomerationFactory {
 	// menu pour créer une agglomeration
 	public static void menuCreationAgglomeration(Agglomeration agg) {
 		boolean tourne = true;
-		Scanner lectureClavier = new Scanner(System.in);
+		
 
 		while (tourne) {
 
 			
 			try {
-				int choix = lectureClavier.nextInt();
+				
 				afficherMenuCreationAgglomeration();
+				Scanner lectureClavier = new Scanner(System.in);
+				int choix = lectureClavier.nextInt();
+
 				switch (choix) {
 					case 1:
 						try {
