@@ -1,17 +1,137 @@
 package Phase1;
 
-import java.util.ArrayList;
+/** Représente une Agglomération 
+ * @author Fayel Degguiche
+ * @author Yanis Hammaci
+ * @author Yanis Allain
+ */
+import java.util.Map;
+import java.util.List;
 import java.util.HashMap;
-
-import Phase1.AgglomerationException.routeDuplicateException;
-import Phase1.AgglomerationException.routeMemeVilleException;
-import Phase1.AgglomerationException.villeNotFoundException;
-import Phase1.VilleException.villeHasNotZoneRecharge;
-import Phase1.VilleException.villeHasZoneRecharge;
-import Phase1.VilleException.villeVoisinesHasNotZoneRecharge;
+import java.util.Vector;
 
 public class Agglomeration {
+	
+	/** Représente les routes reliant les villes dans l'agglomération
+	 * avec une Liste d'adjacence
+	 */
+	private Map<Ville, List<Ville>> routes ;
+	
+	/** Construit une agglomeration */
+	public Agglomeration() {
+		
+		routes = new HashMap<Ville,List<Ville>>();
+	}
+	
+	/** 
+	 * Vérifie si les villes voisines d'une ville sont bien relier
+	 * à une zone de recharge 
+	 * @param villeAVerifier la ville dont on veut vérifier les voisins
+	 * @return Un booléen qui indique si les voisins sont relier à une zone 
+	 * de recharge ou non
+	 */
+	public boolean voisinsRelierAUneZoneRecharge(Ville villeAVerifier) {
+		
+		List<Ville> villeVoisineDeAVerifier = routes.get(villeAVerifier);
+		for(Ville voisinsDeAVerifier : villeVoisineDeAVerifier){
+			if(!estRelierAUneZoneRecharge(voisinsDeAVerifier)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	/**
+	 * Vérifie si une ville est bien relier à une Zone de recharge
+	 * @param villeAVerifier la ville dont on veux vérifier si elle 
+	 * est bien relier à une zone de recharge
+	 * @return un booléen qui indique si la ville est bien relier ou non
+	 */
+	public boolean estRelierAUneZoneRecharge(Ville villeAVerifier) {
+		
+		List<Ville> villeVoisineDeAVerifier = routes.get(villeAVerifier);
+		for(Ville voisinsDeAVerifier : villeVoisineDeAVerifier){
+			if(voisinsDeAVerifier.getZoneRecharge()==true) {
+				return true;
+			}
+			
+		}
+		return false;
+	}
+	
+	/**
+	 * Permet de rechercher une ville dans une Agglomeration
+	 * @param nom le nom de la ville que l'on veut rechercher
+	 * @return La ville que l'on recherche ou null s'il ne l'a pas trouver
+	 */
+	public Ville rechercherVille(String nom) {
+		for(Ville v : routes.keySet()) {
+			if(nom.equals(v.getNom())){
+				return v;
+			}
+		}
+		return null;
+	}
+	/**
+	 * Permet de retirer une Zone de recharge à une Ville
+	 * @param v la ville dont on veux retirer la zone de recharge
+	 */
+	public void retirerZoneRecharge(Ville v) {
+		v.setZoneRecharge(false);
+		if(!voisinsRelierAUneZoneRecharge(v)) {
+			
+			v.setZoneRecharge(true);
+		}
+	}
+	
+	/**
+	 * Intègre une ville dans l'agglomération
+	 * @param v la ville qu'on intègre
+	 */
+	public void ajouterVille(Ville v) {
+			routes.put(v, new Vector<Ville>());
+		
+	}
+	/** Créer une route entre deux ville de l'agglomeration
+	 * 
+	 * @param depart La ville de départ de la route
+	 * @param arrivee La ville d'arrivée de la route
+	 */
+	public void ajouterRoute(Ville depart, Ville arrivee) {
+			routes.get(depart).add(arrivee);
+			routes.get(arrivee).add(depart);
+	}
+	
+	/** Permet d'ajouter une Zone de recharge à une Ville
+	 * @param v la ville dont on souhaite ajouter une zone de recharge
+	 */
+	public void ajouterZoneRecharge(Ville v) {
+		v.setZoneRecharge(true);
+	}
+	
+	@Override
+	public String toString() {
+		String s ="";
+		for(Ville v : routes.keySet()) {
+			s+= v + " " + routes.get(v) + "\n";
+		}
+		return s;
+	}
+	
+	public void afficherListeAdjacence() {
+		System.out.println(this);
+	}
 
+	public void afficherVilleAvecZoneRecharge() {
+		System.out.print("Ville avec une Zone de Recharge : ");
+		for(Ville v : routes.keySet()) {
+			if(v.getZoneRecharge()) {
+				System.out.print(v + " ");
+			}
+		}
+		System.out.println();
+	}
+	
+	/*
 	private HashMap<Ville, ArrayList<Ville>> listVilles;
 
 	public Agglomeration() {
@@ -181,5 +301,7 @@ public class Agglomeration {
 		}
 		return sb.toString();
 	}
-
+	*/
+	
 }
+
