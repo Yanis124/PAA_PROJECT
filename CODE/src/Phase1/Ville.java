@@ -1,15 +1,11 @@
 package Phase1;
-import Phase1.VilleException.villeHasNotZoneRecharge;
-import Phase1.VilleException.villeHasZoneRecharge;
-
 /** 
  * Représente une ville dans l'agglomération 
  * @author Fayel Degguiche
  * @author Yanis Hammaci
  * @author Yanis Allain
  */
-public class Ville {
-	
+public class Ville implements Comparable<Ville> {
 	/** Le nom de la ville */
 	private String nom;
 	/** Indique si une ville possède ou non une Zone de Recharge */
@@ -22,9 +18,9 @@ public class Ville {
 	 */
 	public Ville(String nom) {
 		this.nom = nom;
-		zoneRecharge = false;
+		zoneRecharge = true;
+		
 	}
-
 	/** Permet d'obtenir le nom de la ville
 	 * 
 	 * @return le nom de la ville
@@ -39,7 +35,6 @@ public class Ville {
 	public boolean getZoneRecharge() {
 		return zoneRecharge;
 	}
-
 	/** Permet d'attribuer ou de retirer une zone de recharge à une ville 
 	 * 
 	 * @param zoneRecharge la zone de recharge à retirer ou à ajouter
@@ -47,8 +42,41 @@ public class Ville {
 	public void setZoneRecharge(boolean zoneRecharge) {
 		this.zoneRecharge = zoneRecharge;
 	}
-
-
+	
+	
+	@Override
+	public String toString() {
+		return  nom + " (" + zoneRecharge + ") ";
+	}
+	@Override
+	public boolean equals(Object o) {
+		if((o==null) || (!(o instanceof Ville) )) {
+			return false ;
+		}if(o== this) {
+			return true ;
+		}
+		Ville v = (Ville)o;
+		if(nom.equals(v.getNom())) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	@Override
+	public int compareTo(Ville v) {
+		if(nom.equals(v.getNom())) {
+			return 0;
+		}
+		
+		if(nom.compareTo(v.getNom())>0) {
+			return 1;
+		}else {
+			return -1;
+		}
+	}
+	
+	/*
+	 * 
 	public String toString() {
 		return nom + "(" + (zoneRecharge ? 1 : 0) + ")";
 	}
@@ -76,4 +104,8 @@ public class Ville {
 		}
 		return false;
 	}
-}
+
+	 */
+	
+	}
+
