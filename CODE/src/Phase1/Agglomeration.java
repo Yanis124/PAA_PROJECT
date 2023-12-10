@@ -75,11 +75,12 @@ public class Agglomeration {
 	 * Permet de retirer une Zone de recharge à une Ville
 	 * @param v la ville dont on veux retirer la zone de recharge
 	 */
-	public void retirerZoneRecharge(Ville v) {
+	public void retirerZoneRecharge(Ville v)throws AgglomerationException {
 		v.setZoneRecharge(false);
 		if(!voisinsRelierAUneZoneRecharge(v)) {
 			
 			v.setZoneRecharge(true);
+			throw new ContrainteAccessibiliteException();
 		}
 	}
 	
@@ -97,8 +98,10 @@ public class Agglomeration {
 	 * @param arrivee La ville d'arrivée de la route
 	 */
 	public void ajouterRoute(Ville depart, Ville arrivee) {
+		if(!depart.equals(arrivee)){
 			routes.get(depart).add(arrivee);
 			routes.get(arrivee).add(depart);
+		}
 	}
 	
 	/** Permet d'ajouter une Zone de recharge à une Ville
