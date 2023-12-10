@@ -1,7 +1,21 @@
 package Phase1;
+/**
+ * Cette classe permet de gérer les Exceptions liées
+ * à l'agglomeration
+ * @author Fayel Degguiche
+ * @author Yanis Hammaci
+ * @author Yanis Allain
+ *
+ */
+public class AgglomerationException extends Exception {
+	
+	private static final long serialVersionUID = 6381921323930034609L;
 
-public class AgglomerationException {
-
+	
+	public AgglomerationException(String raison) {
+		super(raison);
+	}
+	/*
     public static class villeNotFoundException extends Exception { // une classe par excéption
 
         public villeNotFoundException() {
@@ -22,4 +36,6 @@ public class AgglomerationException {
             super("on ne peut pas créer une route vers la même ville");
         }
     }
+    
+    */
 }
