@@ -30,7 +30,12 @@ public class AgglomerationFactory {
 			afficherMenuCreationAgglomeration();
 			int choix = lectureClavier.nextInt();
 			switch(choix) {
-				case 1: creationRoute(agg);
+				case 1: try {
+					
+							creationRoute(agg);
+						}catch(AgglomerationException e) {
+							System.out.println(e.getMessage());
+						}	
 						break;
 				case 2: System.out.println("L'agglomération a été créer");
 						
@@ -62,13 +67,24 @@ public class AgglomerationFactory {
 				case 1: String nomAAjouter = Saisie.lireChaine("Entrez le nom de la ville où vous voulez ajouter une Zone de Recharge:\n");
 				
 						Ville aAjouter = agg.rechercherVille(nomAAjouter);
-						agg.ajouterZoneRecharge(aAjouter);
+						try {
+							
+							creationRoute(agg);
+						}catch(AgglomerationException e) {
+							System.out.println(e.getMessage());
+						}
 
 						break;
 				case 2: 
 						String nomARetirer = Saisie.lireChaine("Entrez le nom de la ville où vous voulez retirer une Zone de Recharge\n");
 						Ville aRetirer = agg.rechercherVille(nomARetirer);
-						agg.retirerZoneRecharge(aRetirer);
+						try { 
+							
+							
+							agg.retirerZoneRecharge(aRetirer);
+						} catch(AgglomerationException e) {
+							System.out.println(e.getMessage());
+						}
 						//agg.retirerVilleAvecZoneRecharge(aRetirer);
 						//agg.ajouterVilleSansZoneRecharge(aRetirer);
 						break;
@@ -104,13 +120,16 @@ public class AgglomerationFactory {
 	/**Permet de créer les routes de l'agglomeration
 	 * @param agg l'agglomeration dont on veut créer les routes
 	 */
-	public void creationRoute(Agglomeration agg) {
+	public void creationRoute(Agglomeration agg) throws AgglomerationException {
 		String nomPremiereVille = Saisie.lireChaine("Entrez le nom de la premiere Ville : \n");
 		Ville premiereVille = agg.rechercherVille(nomPremiereVille);
 		
 		String nomDeuxiemeVille = Saisie.lireChaine("Entrez le nom de la deuxième Ville : \n");
 		Ville deuxiemeVille = agg.rechercherVille(nomDeuxiemeVille);
 		agg.ajouterRoute(premiereVille, deuxiemeVille);
+		if(nomPremiereVille.equals(nomDeuxiemeVille)) {
+			throw new RouteVersSoiMemeException();
+		}
 		//System.out.println("La route entre " + premiereVille + " et " + deuxiemeVille + " a été créer");
 		//System.out.println(premiereVille + " - " + deuxiemeVille);
 	}
