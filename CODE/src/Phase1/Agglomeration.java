@@ -165,13 +165,36 @@ public class Agglomeration {
 		return listVilles.size();
 	}
 
+	//retourner la liste des villes de l'agglomeration
+	public ArrayList<Ville> getListVillesAgglomeration(){
+		
+		ArrayList<Ville> listVillesAgglomeration=new ArrayList<>();
+		for(Ville v:listVilles.keySet()) {
+			listVillesAgglomeration.add(v);
+		}
+
+		return listVillesAgglomeration;
+	}
+
+	//retourner le nombre de ville avec une zone de recharge
+	public int getNombreVillesAvecZoneRecharge() {
+		int nombreVillesAvecZoneRecharge = 0;
+		for (Ville v : listVilles.keySet()) {
+			if (v.getZoneRecharge()) {
+				nombreVillesAvecZoneRecharge++;
+			}
+		}
+		return nombreVillesAvecZoneRecharge;
+	}
+
 	// afficher le grahe de l'agglomeration
+
  @Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
 		for (Ville v : listVilles.keySet()) {
-			sb.append(v.getNom() + " : [");
+			sb.append(v.toString()+ " : [");
 			ArrayList<Ville> listVilleVoisines = listVilles.get(v);
 
 			for (Ville villeVoisines : listVilleVoisines) {

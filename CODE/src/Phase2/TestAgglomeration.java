@@ -9,8 +9,10 @@ public class TestAgglomeration {
         
         InitAgglomeration.readAgglomerationFromFile(agg,"Phase2/agglomeration.txt");
         
-        int k=10;
+        int k=agg.getNombreVilles();
 
-        AlgoApproximationNaif.algoNaif(k,agg);
+        int score=AlgoApproximationNaif.algoNaif(k,agg);
+        System.out.println(score);
+
     }
 }

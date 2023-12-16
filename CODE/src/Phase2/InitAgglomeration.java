@@ -60,7 +60,6 @@ public class InitAgglomeration {
             e.printStackTrace();
         }
 
-        System.out.println(agg.toString());
     }
 
     // retourner le nom de la ville
