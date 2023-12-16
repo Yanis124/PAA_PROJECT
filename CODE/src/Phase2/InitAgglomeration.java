@@ -1,14 +1,14 @@
 package Phase2;
 
+import Phase1.Agglomeration;
+import Phase1.AgglomerationException;
+import Phase1.Ville;
+import Phase1.VilleException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Phase1.Agglomeration;
-import Phase1.AgglomerationException;
-import Phase1.Ville;
-import Phase1.VilleException;
 
 public class InitAgglomeration {
 
@@ -34,7 +34,7 @@ public class InitAgglomeration {
                         try {
                             agg.ajouterRoute(villeDepart, villeArrive);
                         } catch (AgglomerationException.routeDuplicateException
-                                | AgglomerationException.routeMemeVilleException e) {
+                                | AgglomerationException.RouteVersSoiMemeException e) {
                             System.err.println(e.getMessage());
                         }
                     } catch (AgglomerationException.villeNotFoundException e) {
@@ -94,3 +94,4 @@ public class InitAgglomeration {
     }
 
 }
+

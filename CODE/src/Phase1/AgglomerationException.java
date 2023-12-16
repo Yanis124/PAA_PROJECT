@@ -15,7 +15,7 @@ public class AgglomerationException extends Exception {
 	public AgglomerationException(String raison) {
 		super(raison);
 	}
-	/*
+	
     public static class villeNotFoundException extends Exception { // une classe par excéption
 
         public villeNotFoundException() {
@@ -30,12 +30,12 @@ public class AgglomerationException extends Exception {
         }
     }
 
-    public static class routeMemeVilleException extends Exception {
+    public static class RouteVersSoiMemeException extends Exception {
 
-        public routeMemeVilleException() {
+        public RouteVersSoiMemeException() {
             super("on ne peut pas créer une route vers la même ville");
         }
     }
     
-    */
+    
 }
