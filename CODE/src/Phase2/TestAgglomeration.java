@@ -11,8 +11,11 @@ public class TestAgglomeration {
         
         int k=agg.getNombreVilles();
 
-        int score=AlgoApproximationNaif.algoNaif(k,agg);
-        System.out.println(score);
+        int scoreAlgoNaif=AlgoApproximationNaif.algoNaif(k, agg);
+        System.out.println("avec le premier algo : "+scoreAlgoNaif);
+
+        int scoreAlgoMoinNaif=AlgoApproximationNaif.algoMoinNaif(k,agg);
+        System.out.println("avec le deuxieme algo : "+scoreAlgoMoinNaif);
 
     }
 }
