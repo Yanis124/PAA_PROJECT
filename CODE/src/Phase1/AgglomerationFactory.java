@@ -1,13 +1,18 @@
 package Phase1;
 
 
+import Phase2.AlgoApproximationNaif;
+import Phase2.InitAgglomeration;
+import java.io.File;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
+
+
 public class AgglomerationFactory {
 
-	// créer une agglomeration
+	// créer une agglomeration vide
 	public static Agglomeration fabriqueAgglomeration() {
 		return new Agglomeration();
 	}
@@ -77,20 +82,20 @@ public class AgglomerationFactory {
 		}
 	}
 	
-	public static void afficherMenuGestionAgglomeration() {
+	public static void afficherMenuResoudreManuellement() {
 		System.out.println("\n1 : Ajouter une zone de recharge");
 		System.out.println("2 : Retirer une zone de recharge");
 		System.out.println("3 : Fin");
 	}
 	// menu pour ajouter et supprimer des zones de recharge
-	public static void menuGestionAgglomeration(Agglomeration agg) {
+	public static void resoudreManuellement(Agglomeration agg) {
 
 		boolean tourne = true;
 		System.out.println("maintenant nous allons rajouter des zones de recharge dans les villes");
 		Scanner lectureClavier = new Scanner(System.in);
 		while (tourne) {
 
-			afficherMenuGestionAgglomeration();
+			afficherMenuResoudreManuellement();
 			int choix = lectureClavier.nextInt();
 
 			try {
@@ -129,7 +134,7 @@ public class AgglomerationFactory {
 						break;
 
 					default:
-						System.out.println("Choix invalide. Veuillez entrer 1 ou 2.");
+						System.out.println("Choix invalide. Veuillez entrer 1 ,2 ou bien 3.");
 						break;
 				}
 
@@ -138,16 +143,138 @@ public class AgglomerationFactory {
 			}
 		}
 
+
 		agg.afficherVilleAvecZoneRecharge(); // afficher les villes avec une zone de recharge
 	}
 
-	// afficher les deux menus
+	// afficher le menus
 	public static void menuAgglomeration() {
 		Agglomeration agg = fabriqueAgglomeration(); // créer l'agglomeration
+		
+		String cheminFicherAgglomeration=lectureFichier();
+		InitAgglomeration.readAgglomerationFromFile(agg, cheminFicherAgglomeration); // lire l'agglomeration depuis un fichier
 
-		menuCreationAgglomeration(agg); // ajouter les routes
-		System.out.println(agg.toString());
-		menuGestionAgglomeration(agg); // ajouter les zones de recharges
+		System.out.println(agg.toString());  //afficher l'agglomération a l'utilisateur
+
+		try{
+			Scanner lectureClavier = new Scanner(System.in);
+			boolean tourne=true;
+			
+			while(tourne){
+				afficherMenu(); //Afficher le menu
+				int choix=lectureClavier.nextInt();
+
+				switch (choix) {
+					case 1: //resoudre manuellement 
+						resoudreManuellement(agg);// ajouter les zones de recharges manuellement
+						break;
+					case 2:
+						resoudreAutomatiquement(agg);  //ajouter les zones de recharge automatiquement
+						break;
+					case 3:
+						String cheminFichierSauvgarderAgglomeration=ecritureFichier();  //sauvgarder le fichier
+						InitAgglomeration.writeAgglomerationToFile(agg, cheminFichierSauvgarderAgglomeration);
+						tourne=false;
+
+						break;
+					case 4:
+						System.out.println("Merci d'avoir utiliser notre programme");
+						tourne=false;
+						break;
+					default:
+						System.out.println("Choix invalide. Veuillez entrer 1, 2, 3 ou 4.");
+						break;
+				}
+			}
+		}catch(InputMismatchException e){
+			System.out.println("choix invalide veuillez inserer un nombre");
+		}
+
+
+
+		
+
+		
+
+
+	}
+
+	//retourne le chemin du fichier contenant l'agglomération
+	public static String lectureFichier(){
+
+		System.out.println("inserer le chemin vers le fichier contenant l'agglomération");
+		
+		File file;
+		String cheminFichier;
+
+		do{
+			Scanner lectureClavier = new Scanner(System.in);
+			cheminFichier=lectureClavier.nextLine(); //récuperer le fichier contenant l'agglomeration
+
+			file = new File(cheminFichier);
+		}while (!file.exists()); //verifier si le fichier existe
+        
+		return cheminFichier;
+	}
+
+	//sauvgarder l'agglomération dans un fichier
+	public static String ecritureFichier(){
+
+		System.out.println("inserer le chemin vers le fichier où vous voulez sauvgarder l'agglomération");
+		File file;
+		String cheminFichier;
+
+		do{
+			Scanner lectureClavier = new Scanner(System.in);
+			cheminFichier=lectureClavier.nextLine(); //récuperer le fichier contenant l'agglomeration
+
+			file = new File(cheminFichier);
+		}while (!file.exists()); //verifier si le fichier existe
+        
+
+		return cheminFichier;
+	}
+
+	//afficher le menu
+	public static void afficherMenu(){
+		System.out.println("Veuillez choisir une option");
+		System.out.println("1 : Résoudre manuellement");
+		System.out.println("2 : Résoudre automatiquement");
+		System.out.println("3 : Sauvgarder l'agglomération");
+		System.out.println("4 : Quitter");
+	}
+
+	//menu pour resoudre automatiquement
+	public static void afficherMenuResoudreAutomatiquement(){
+		System.out.println("Veuillez choisir une option");
+		System.out.println("1 : Algorithme Naif");
+		System.out.println("2 : Algorithme Moins Naif");
+	}
+
+	public static void resoudreAutomatiquement(Agglomeration agg){
+
+		afficherMenuResoudreAutomatiquement(); //afficher le menu
+		Scanner lectureClavier = new Scanner(System.in);
+		int choix=lectureClavier.nextInt();
+
+		try{
+			switch (choix) {
+				case 1:
+					int scoreAlgoNaif=AlgoApproximationNaif.algoNaif(agg.getNombreVilles(), agg);
+					System.out.println("avec le premier algo : "+scoreAlgoNaif);
+					break;
+				case 2:
+					int scoreAlgoMoinNaif=AlgoApproximationNaif.algoMoinNaif(agg.getNombreVilles(),agg);
+					System.out.println("avec le deuxieme algo : "+scoreAlgoMoinNaif);
+					break;
+				default:
+					System.out.println("Choix invalide. Veuillez entrer 1 ou 2.");
+					break;
+			}
+		}
+		catch(InputMismatchException e){
+			System.out.println("choix invalide veuillez inserer un nombre");
+		}
 	}
 
 }

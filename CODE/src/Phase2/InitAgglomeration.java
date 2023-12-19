@@ -2,10 +2,13 @@ package Phase2;
 
 import Phase1.Agglomeration;
 import Phase1.AgglomerationException;
+import Phase1.Route;
 import Phase1.Ville;
 import Phase1.VilleException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -92,5 +95,48 @@ public class InitAgglomeration {
         return nomVille;
     }
 
-}
+    // write agglomeration to file
+    public static void writeAgglomerationToFile(Agglomeration agg, String fichier) {
+
+         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fichier))) {
+            // ecrire les villes
+            for (Ville ville : agg.getListVillesAgglomeration()) {
+                writer.write("ville(" + ville.getNom() + ").\n");
+            }
+
+            // ecrire les routes
+            ArrayList<Route> listRoutes = new ArrayList<>();
+
+            for (Ville villeDepart : agg.getListVillesAgglomeration()) {
+                for(Ville villeArrive: agg.getVilleVoisines(villeDepart.getNom())) { //recuperer les voisins de la ville 
+
+                    boolean ajouterRoute = true;
+
+                    Route route = new Route(villeDepart, villeArrive);
+                    
+                    for(Route route1: listRoutes) {
+                        if(route.equal(route1)) {
+                            ajouterRoute = false;
+                        }
+                    }
+
+                    if(ajouterRoute) {
+                        listRoutes.add(route);
+                        writer.write("route(" + villeDepart.getNom() + "," + villeArrive.getNom() + ").\n");
+                    }
+                }
+            }
+
+            // ecrire les ville avec une zone de recharge
+            for (Ville ville : agg.getVilleAvecZoneRecharge()) {
+               
+                writer.write("recharge(" + ville.getNom() + ").\n");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+ }   
+
 

@@ -18,7 +18,9 @@ public class Agglomeration {
 		ArrayList<Ville> listVillesAvecZoneRecharge = new ArrayList<>();
 
 		for (Ville ville : listVilles.keySet()) {
-			listVillesAvecZoneRecharge.add(ville);
+			if(ville.getZoneRecharge()){
+				listVillesAvecZoneRecharge.add(ville);
+			}
 		}
 		return listVillesAvecZoneRecharge;
 	}
@@ -158,6 +160,20 @@ public class Agglomeration {
 		}
 		return zoneRecharge;
 
+	}
+
+	//retourner la liste des voisins de la ville
+	public ArrayList<Ville> getVilleVoisines(String nomVille) {
+
+		Ville ville=null;
+		try{
+			ville = rechercherVilleParNom(nomVille);
+		}
+		catch(AgglomerationException.villeNotFoundException e){
+			System.err.println(e.getMessage());
+		}
+
+		return listVilles.get(ville);
 	}
 
 	//retourner le nombre de villes dans l'agglomeration

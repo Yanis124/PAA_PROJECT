@@ -9,13 +9,15 @@ public class TestAgglomeration {
         
         InitAgglomeration.readAgglomerationFromFile(agg,"Phase2/agglomeration.txt");
         
-        int k=agg.getNombreVilles();
+        // int k=agg.getNombreVilles();
 
-        int scoreAlgoNaif=AlgoApproximationNaif.algoNaif(k, agg);
-        System.out.println("avec le premier algo : "+scoreAlgoNaif);
+        // int scoreAlgoNaif=AlgoApproximationNaif.algoNaif(k, agg);
+        // System.out.println("avec le premier algo : "+scoreAlgoNaif);
 
-        int scoreAlgoMoinNaif=AlgoApproximationNaif.algoMoinNaif(k,agg);
-        System.out.println("avec le deuxieme algo : "+scoreAlgoMoinNaif);
+        // int scoreAlgoMoinNaif=AlgoApproximationNaif.algoMoinNaif(k,agg);
+        // System.out.println("avec le deuxieme algo : "+scoreAlgoMoinNaif);
+
+        InitAgglomeration.writeAgglomerationToFile(agg,"Phase2/agglomerationResultat.txt");
 
     }
 }

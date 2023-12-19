@@ -15,10 +15,7 @@ public class TestAgglomeration {
 		af.menuAgglomeration();
 		
 
-		/*
 		
-		AgglomerationFactory.menuAgglomeration();
-		*/
 
 	}
 
