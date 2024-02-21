@@ -256,6 +256,7 @@ public class AgglomerationFactory {
 		afficherMenuResoudreAutomatiquement(); //afficher le menu
 		Scanner lectureClavier = new Scanner(System.in);
 		int choix=lectureClavier.nextInt();
+		
 
 		try{
 			switch (choix) {
