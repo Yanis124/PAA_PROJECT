@@ -111,6 +111,7 @@ public class InitAgglomeration {
                 for(Ville villeArrive: agg.getVilleVoisines(villeDepart.getNom())) { //recuperer les voisins de la ville 
 
                     boolean ajouterRoute = true;
+                    
 
                     Route route = new Route(villeDepart, villeArrive);
                     
